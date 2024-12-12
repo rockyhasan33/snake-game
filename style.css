@@ -1,0 +1,56 @@
+*, ::before, ::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #D9EAFD;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: "Permanent Marker", cursive;
+}
+
+.scores {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.scores div {
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+    font-size: 24px;
+    text-transform: uppercase;
+    
+}
+
+.scores div h2 {
+    font-size: inherit;
+
+}
+
+.outer-container {
+    background: #074799;
+    padding: 20px;
+    border-radius: 15px;
+    margin-top: 0.25rem;
+}
+
+.game-container {
+    display: grid;
+    grid-template-columns: repeat(20, 20px);
+    grid-template-rows: repeat(20, 20px);
+    background-color: #5DB996;
+}
+
+.snake {
+    background: #16325B;
+}
+
+.food {
+    background: #FF2929;
+}
