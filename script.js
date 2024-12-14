@@ -1,5 +1,6 @@
 const board = document.querySelector('.game-container');
 const banner = document.querySelector('.game-start');
+const score = document.querySelector('.score');
 
 
 // initial state of game
@@ -7,6 +8,9 @@ let snake = [{x: 10, y: 10}];
 let food = generateFood();
 let direction = 'right';
 let isReady = false;
+let scoreBoard = 0;
+let stopGame;
+let gameDelay = 200;
 
 
 
@@ -83,10 +87,20 @@ function move() {
     
     snake.unshift(head);
     if(head.x === food.x && head.y === food.y) {
+        scoreBoard++;
+        if(scoreBoard > 5) {
+            gameDelay = 100;
+            clearInterval(stopGame);
+            startGame();
+        }
+        score.textContent = scoreBoard;
         food = generateFood();
     }else if(head.x > 20 || head.y > 20 || head.x < 1 || head.y < 1) {
         isReady = false;
-
+        clearInterval(stopGame);
+        snake = [{x: 10, y: 10}];
+        gameDelay = 200;
+        scoreBoard = 0;
     }else {
         snake.pop();
     }
@@ -104,9 +118,9 @@ function generateFood() {
 }
 
 function startGame() {
-    setInterval(() => {
+    stopGame = setInterval(() => {
         draw();
-    }, 300)
+    }, gameDelay)
 }
 
 
@@ -131,7 +145,7 @@ window.addEventListener('keydown', (e) => {
             direction = 'down';
         }
     }else if(e.key === 'ArrowUp') {
-        if(direction !== 'up') {
+        if(direction !== 'down') {
             direction = 'up';
         }
     }
