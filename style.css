@@ -5,8 +5,6 @@
 }
 
 body {
-    background-color: #D9EAFD;
-    background: #074799;
     background: #16325B;
     height: 100vh;
     display: flex;
@@ -41,7 +39,6 @@ body {
 }
 
 .outer-container {
-    background: #074799;
     background-color: #ff00ae;
     padding: 20px;
     border-radius: 15px;
@@ -53,7 +50,6 @@ body {
     display: grid;
     grid-template-columns: repeat(20, 20px);
     grid-template-rows: repeat(20, 20px);
-    background-color: #5DB996;
     background: #fb5fca;
 }
 
@@ -73,8 +69,6 @@ body {
 
 .snake {
     background: #16325B;
-    /* background: #ff00ae;
-    background-color: #229799; */
     border: 1px solid #fff;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
     border-radius: 30%;
