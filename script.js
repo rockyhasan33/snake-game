@@ -17,7 +17,7 @@ let gameDelay = 200;
 
 // Set high score from local Storage ;
 
-highScore.textContent = (JSON.parse(localStorage.getItem('score')) < 10) ? `00${JSON.parse(localStorage.getItem('score'))}` : (JSON.parse(localStorage.getItem('score')) >= 10) ? `0${JSON.parse(localStorage.getItem('score'))}` : JSON.parse(localStorage.getItem('score'));
+highScore.textContent = (JSON.parse(localStorage.getItem('score')) < 10) ? `00${(JSON.parse(localStorage.getItem('score')) || 0)}` : (JSON.parse(localStorage.getItem('score')) >= 10) ? `0${JSON.parse(localStorage.getItem('score'))}` : JSON.parse(localStorage.getItem('score'));
 
 
 function draw() {
