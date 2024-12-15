@@ -1,10 +1,11 @@
 const board = document.querySelector('.game-container');
 const banner = document.querySelector('.game-start');
 const score = document.querySelector('.score');
+const highScore = document.querySelector('.high-score');
 
 
 // initial state of game
-let snake = [{x: 10, y: 10}];
+let snake = [{x: 10, y: 10}, {x: 11, y: 10}];
 let food = generateFood();
 let direction = 'right';
 let isReady = false;
@@ -13,6 +14,10 @@ let stopGame;
 let gameDelay = 200;
 
 
+
+// Set high score from local Storage ;
+
+highScore.textContent = (JSON.parse(localStorage.getItem('score')) < 10) ? `00${JSON.parse(localStorage.getItem('score'))}` : (JSON.parse(localStorage.getItem('score')) >= 10) ? `0${JSON.parse(localStorage.getItem('score'))}` : JSON.parse(localStorage.getItem('score'));
 
 
 function draw() {
@@ -60,7 +65,6 @@ function setPosition(element, position) {
 
 
 
-
 // Move the snake
 
 function move() {
@@ -80,47 +84,118 @@ function move() {
         case 'down':
             head.y++;
             break;
-        default:
-            break;
     }
 
     
     snake.unshift(head);
+
+    
+
     if(head.x === food.x && head.y === food.y) {
         scoreBoard++;
-        if(scoreBoard > 5) {
-            gameDelay = 100;
+        if(scoreBoard >= 10 && scoreBoard <= 15) {
             clearInterval(stopGame);
-            startGame();
+            gameDelay = 170; 
+            startGame()
+        }else if(scoreBoard > 15 && scoreBoard <= 20) {
+            clearInterval(stopGame);
+            gameDelay = 150;
+            startGame()
+        }else if(scoreBoard > 20 && scoreBoard <= 25) {
+            clearInterval(stopGame);
+            gameDelay = 130;
+            startGame()
+        }else if(scoreBoard > 25 && scoreBoard <= 30) {
+            clearInterval(stopGame);
+            gameDelay = 130;
+            startGame()
+        }else if(scoreBoard > 30 && scoreBoard <= 35) {
+            clearInterval(stopGame);
+            gameDelay = 100;
+            startGame()
+        }else if(scoreBoard > 35 && scoreBoard <= 40) {
+            clearInterval(stopGame);
+            gameDelay = 80;
+            startGame()
         }
-        score.textContent = scoreBoard;
+        
+        if(scoreBoard < 10) {
+            score.textContent = `00${scoreBoard}`;
+        }else if(scoreBoard >= 10) {
+            score.textContent = `0${scoreBoard}`;
+        }
+        
         food = generateFood();
+
+
     }else if(head.x > 20 || head.y > 20 || head.x < 1 || head.y < 1) {
-        isReady = false;
+        if(scoreBoard > JSON.parse(localStorage.getItem('score'))) {
+            localStorage.setItem('score', JSON.stringify(scoreBoard));
+            if(scoreBoard < 10) {
+                highScore.textContent = `00${scoreBoard}`;
+            }else if(scoreBoard >= 10) {
+                highScore.textContent = `0${scoreBoard}`;
+            }
+        }
         clearInterval(stopGame);
-        snake = [{x: 10, y: 10}];
+        isReady = false;
+        snake = [{x: 10, y: 10}, {x:11, y: 10}];
         gameDelay = 200;
+        score.textContent = '000';
+        banner.classList.remove('hide');
         scoreBoard = 0;
+        direction = 'right';
+        food = generateFood();
+        
     }else {
         snake.pop();
     }
+
+
+    chekcCollision(head);
  
 }
 
+
 // Generating food with random positon
-
-
-
 function generateFood() {
     const x = Math.floor(Math.random() * 20) + 1;
     const y = Math.floor(Math.random() * 20) + 1;
     return {x, y};
 }
 
+
+// Start Game function
 function startGame() {
     stopGame = setInterval(() => {
         draw();
     }, gameDelay)
+}
+
+
+// Check the collision
+function chekcCollision(head) {
+    for(let i = 3; i < snake.length; i++) {
+        if(head.x === snake[i].x && head.y === snake[i].y) {
+            if(scoreBoard > JSON.parse(localStorage.getItem('score'))) {
+                localStorage.setItem('score', JSON.stringify(scoreBoard));
+                if(scoreBoard < 10) {
+                    highScore.textContent = `00${scoreBoard}`;
+                }else if(scoreBoard >= 10) {
+                    highScore.textContent = `0${scoreBoard}`;
+                }
+            }
+            clearInterval(stopGame);
+            isReady = false;
+            snake = [{x: 10, y: 10}, {x:11, y: 10}];
+            gameDelay = 200;
+            score.textContent = '000';
+            banner.classList.remove('hide');
+            scoreBoard = 0;
+            direction = 'right';
+            food = generateFood();
+        }
+    }
 }
 
 
